@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ItHelpDesk.Models.ActivityLog>
+
+@{
+    ViewData["Title"] = "Activity Logs";
+}
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-primary mb-4">Activity Logs</h2>
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Action</th>
+                        <th>User</th>
+                        <th>Details</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Action</td>
+                            <td>@item.UserName</td>
+                            <td>@item.Details</td>
+                            <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

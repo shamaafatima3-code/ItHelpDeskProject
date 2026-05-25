@@ -1,0 +1,174 @@
+@model IEnumerable<ItHelpDesk.Models.SupportTickets>
+
+@{
+    ViewData["Title"] = "Support Tickets";
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">Support Tickets</h2>
+
+        <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
+            + Create New Ticket
+        </a>
+    </div>
+
+    <form asp-action="Index" method="get" class="row g-2 mb-4">
+
+        <div class="col-md-4">
+            <input type="text"
+                   name="searchString"
+                   class="form-control"
+                   placeholder="Search by title, category, or status..." />
+        </div>
+
+        <div class="col-md-3">
+            <select name="statusFilter" class="form-select">
+                <option value="">All Statuses</option>
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Pending</option>
+                <option>Resolved</option>
+                <option>Closed</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select name="priorityFilter" class="form-select">
+                <option value="">All Priorities</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Critical</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-dark w-100">
+                Filter
+            </button>
+        </div>
+
+    </form>
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                        <th>Assigned To</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.Title</td>
+
+                            <td>@item.Category</td>
+
+                            <td>
+                                @if (item.Priority == "Critical")
+                                {
+                                    <span class="badge bg-danger">
+                                        @item.Priority
+                                    </span>
+                                }
+                                else if (item.Priority == "High")
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        @item.Priority
+                                    </span>
+                                }
+                                else if (item.Priority == "Medium")
+                                {
+                                    <span class="badge bg-info text-dark">
+                                        @item.Priority
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">
+                                        @item.Priority
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.Status == "Resolved")
+                                {
+                                    <span class="badge bg-success">
+                                        @item.Status
+                                    </span>
+                                }
+                                else if (item.Status == "Pending")
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        @item.Status
+                                    </span>
+                                }
+                                else if (item.Status == "Open")
+                                {
+                                    <span class="badge bg-danger">
+                                        @item.Status
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary">
+                                        @item.Status
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                @item.CreatedDate.ToString("yyyy-MM-dd")
+                            </td>
+
+                            <td>@item.AssignedTo</td>
+
+                            <td class="text-center">
+
+                                <a asp-action="Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-info text-white">
+                                    Details
+                                </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-danger">
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>

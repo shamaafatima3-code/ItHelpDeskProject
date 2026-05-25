@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">
+            IT Help Desk Dashboard
+        </h1>
+
+        <p class="lead text-muted">
+             Support Ticket Management System
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Total Tickets</h5>
+                    <h1 class="text-primary fw-bold">
+                        @ViewBag.TotalTickets
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Open Tickets</h5>
+                    <h1 class="text-danger fw-bold">
+                        @ViewBag.OpenTickets
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Resolved Tickets</h5>
+                    <h1 class="text-success fw-bold">
+                        @ViewBag.ResolvedTickets
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Pending Tickets</h5>
+                    <h1 class="text-warning fw-bold">
+                        @ViewBag.PendingTickets
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+        <a asp-controller="SupportTickets"
+           asp-action="Index"
+           class="btn btn-primary btn-lg rounded-pill px-5 shadow">
+            Manage Tickets
+        </a>
+    </div>
+
+</div>

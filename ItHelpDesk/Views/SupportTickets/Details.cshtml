@@ -1,0 +1,131 @@
+@model ItHelpDesk.Models.SupportTickets
+
+@{
+    ViewData["Title"] = "Ticket Details";
+    var comments = ViewBag.Comments as List<ItHelpDesk.Models.TicketComment>;
+    var attachments = ViewBag.Attachments as List<ItHelpDesk.Models.TicketAttachment>;
+    var ai = ViewBag.AIRecommendation as ItHelpDesk.Models.AIRecommendation;
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-info text-white rounded-top-4">
+            <h3 class="mb-0">Ticket Details</h3>
+        </div>
+
+        <div class="card-body p-4">
+            <h4 class="fw-bold text-primary">@Model.Title</h4>
+            <hr />
+
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Category:</strong> @Model.Category</p>
+            <p><strong>Priority:</strong> @Model.Priority</p>
+            <p><strong>Status:</strong> @Model.Status</p>
+            <p><strong>Created Date:</strong> @Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</p>
+            <p><strong>Assigned To:</strong> @Model.AssignedTo</p>
+
+            <div class="mt-4 d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning rounded-pill px-4">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary rounded-pill px-4">Back to List</a>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-primary text-white rounded-top-4">
+            <h4 class="mb-0">AI Recommendation</h4>
+        </div>
+
+        <div class="card-body p-4">
+            @if (ai != null)
+            {
+                <p><strong>Suggested Category:</strong> @ai.SuggestedCategory</p>
+                <p><strong>Suggested Priority:</strong> @ai.SuggestedPriority</p>
+                <p><strong>Suggested Reply:</strong> @ai.SuggestedReply</p>
+            }
+            else
+            {
+                <p class="text-muted">No AI recommendation available.</p>
+            }
+        </div>
+    </div>
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-secondary text-white rounded-top-4">
+            <h4 class="mb-0">Attachments</h4>
+        </div>
+
+        <div class="card-body p-4">
+            @if (attachments != null && attachments.Any())
+            {
+                @foreach (var file in attachments)
+                {
+                    <div class="card mb-3 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">@file.FileName</h6>
+                                <small class="text-muted">
+                                    Uploaded on @file.UploadedDate.ToString("yyyy-MM-dd HH:mm")
+                                </small>
+                            </div>
+
+                            <a href="@file.FilePath" target="_blank" class="btn btn-primary rounded-pill">
+                                View File
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No attachments uploaded.</p>
+            }
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-dark text-white rounded-top-4">
+            <h4 class="mb-0">Ticket Comments</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="AddComment" method="post">
+                <input type="hidden" name="supportTicketsId" value="@Model.Id" />
+
+                <div class="mb-3">
+                    <textarea name="commentText"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Write your comment here..."
+                              required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary rounded-pill px-4">
+                    Add Comment
+                </button>
+            </form>
+
+            <hr class="my-4" />
+
+            @if (comments != null && comments.Any())
+            {
+                @foreach (var comment in comments)
+                {
+                    <div class="card mb-3 border-0 shadow-sm rounded-4">
+                        <div class="card-body">
+                            <p class="mb-2">@comment.CommentText</p>
+
+                            <small class="text-muted">
+                                By @comment.CreatedBy on @comment.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+                            </small>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No comments yet.</p>
+            }
+        </div>
+    </div>
+
+</div>

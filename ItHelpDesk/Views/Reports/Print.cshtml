@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Print Report";
+}
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-primary">IT Help Desk Report</h2>
+    <hr />
+
+    <p><strong>Total Tickets:</strong> @ViewBag.TotalTickets</p>
+    <p><strong>Open:</strong> @ViewBag.OpenTickets</p>
+    <p><strong>In Progress:</strong> @ViewBag.InProgressTickets</p>
+    <p><strong>Pending:</strong> @ViewBag.PendingTickets</p>
+    <p><strong>Resolved:</strong> @ViewBag.ResolvedTickets</p>
+    <p><strong>Closed:</strong> @ViewBag.ClosedTickets</p>
+
+    <button onclick="window.print()" class="btn btn-primary mt-4">
+        Print / Save as PDF
+    </button>
+</div>

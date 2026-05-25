@@ -1,0 +1,58 @@
+@model ItHelpDesk.Models.KnowledgeArticle
+
+@{
+    ViewData["Title"] = "Article Details";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-info text-white rounded-top-4">
+            <h3 class="mb-0">Knowledge Article Details</h3>
+        </div>
+
+        <div class="card-body p-4">
+
+            <h3 class="fw-bold text-primary">
+                @Model.Title
+            </h3>
+
+            <p class="text-muted">
+                Category: @Model.Category
+            </p>
+
+            <hr />
+
+            <p style="white-space: pre-line;">
+                @Model.Content
+            </p>
+
+            <hr />
+
+            <p>
+                <strong>Created By:</strong> @Model.CreatedBy
+            </p>
+
+            <p>
+                <strong>Created Date:</strong> @Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+            </p>
+
+            <div class="mt-4 d-flex gap-2">
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning rounded-pill px-4">
+                    Edit
+                </a>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary rounded-pill px-4">
+                    Back to List
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

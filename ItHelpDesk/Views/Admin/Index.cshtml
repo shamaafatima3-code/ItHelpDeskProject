@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-primary mb-4">Admin Panel</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Total Tickets</h5>
+                <h1 class="text-primary">@ViewBag.TotalTickets</h1>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Total Comments</h5>
+                <h1 class="text-success">@ViewBag.TotalComments</h1>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Total Attachments</h5>
+                <h1 class="text-warning">@ViewBag.TotalAttachments</h1>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Total Notifications</h5>
+                <h1 class="text-danger">@ViewBag.TotalNotifications</h1>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-5">
+        <a asp-controller="SupportTickets" asp-action="Index" class="btn btn-primary rounded-pill px-4">
+            Manage Tickets
+        </a>
+
+        <a asp-controller="SystemNotifications" asp-action="Index" class="btn btn-dark rounded-pill px-4">
+            View Notifications
+        </a>
+    </div>
+</div>

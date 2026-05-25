@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-primary mb-4">Reports & Analytics</h2>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Total Tickets</h5>
+                <h1 class="text-primary">@ViewBag.TotalTickets</h1>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Open</h5>
+                <h1 class="text-danger">@ViewBag.OpenTickets</h1>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Resolved</h5>
+                <h1 class="text-success">@ViewBag.ResolvedTickets</h1>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 rounded-4 text-center p-4">
+                <h5>Critical</h5>
+                <h1 class="text-warning">@ViewBag.CriticalTickets</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-dark text-white rounded-top-4">
+            <h4 class="mb-0">Ticket Summary</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <p><strong>In Progress:</strong> @ViewBag.InProgressTickets</p>
+            <p><strong>Pending:</strong> @ViewBag.PendingTickets</p>
+            <p><strong>Closed:</strong> @ViewBag.ClosedTickets</p>
+            <hr />
+            <p><strong>High Priority:</strong> @ViewBag.HighTickets</p>
+            <p><strong>Medium Priority:</strong> @ViewBag.MediumTickets</p>
+            <p><strong>Low Priority:</strong> @ViewBag.LowTickets</p>
+        </div>
+    </div>
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-primary text-white rounded-top-4">
+            <h4 class="mb-0">Ticket Status Chart</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <canvas id="statusChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('statusChart');
+
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: ['Open', 'In Progress', 'Pending', 'Resolved', 'Closed'],
+        datasets: [{
+        label: 'Tickets by Status',
+        data: [
+        @ViewBag.OpenTickets,
+        @ViewBag.InProgressTickets,
+        @ViewBag.PendingTickets,
+        @ViewBag.ResolvedTickets,
+        @ViewBag.ClosedTickets
+        ],
+        borderWidth: 1
+        }]
+        }
+        });
+    </script>
+    <a asp-controller="Reports"
+       asp-action="Print"
+       class="btn btn-success rounded-pill px-4 mt-4">
+        Export / Print Report
+    </a>
+</div>

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ItHelpDesk.Models.SystemNotification>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-primary mb-4">System Notifications</h2>
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="alert @(item.IsRead ? "alert-secondary" : "alert-info") shadow-sm rounded-4">
+
+                        <strong>@item.Type</strong><br />
+
+                        @item.Message<br />
+
+                        @if (!string.IsNullOrEmpty(item.RecipientEmail))
+                        {
+                            <small>
+                                Recipient:
+                                @item.RecipientEmail
+                            </small>
+
+                            <br />
+                        }
+
+                        <small class="text-muted">
+                            @item.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+                        </small>
+
+                        <div class="mt-2">
+
+                            @if (!item.IsRead)
+                            {
+                                <a asp-action="MarkAsRead"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-success">
+                                    Mark as Read
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    Read
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No notifications yet.</p>
+            }
+
+        </div>
+    </div>
+</div>

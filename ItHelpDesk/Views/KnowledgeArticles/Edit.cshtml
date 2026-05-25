@@ -1,0 +1,76 @@
+@model ItHelpDesk.Models.KnowledgeArticle
+
+@{
+    ViewData["Title"] = "Edit Article";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-warning rounded-top-4">
+            <h3 class="mb-0">Edit Knowledge Article</h3>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label fw-bold"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Category" class="form-label fw-bold"></label>
+                    <select asp-for="Category" class="form-select">
+                        <option>Authentication</option>
+                        <option>Hardware</option>
+                        <option>Software</option>
+                        <option>Network</option>
+                        <option>Email</option>
+                        <option>AI Support</option>
+                        <option>Security</option>
+                        <option>Other</option>
+                    </select>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Content" class="form-label fw-bold"></label>
+                    <textarea asp-for="Content" class="form-control" rows="8"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CreatedBy" class="form-label fw-bold"></label>
+                    <input asp-for="CreatedBy" class="form-control" />
+                    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" asp-for="CreatedDate" />
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-warning rounded-pill px-4">
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-secondary rounded-pill px-4">
+                        Back to List
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
