@@ -1,0 +1,68 @@
+﻿@model List<ItHelpDesk.Models.ViewModels.UserRoleViewModel>
+
+@{
+    ViewData["Title"] = "User Roles Management";
+}
+
+<div class="container mt-5">
+
+    <h2 class="fw-bold text-primary mb-4">
+        User Roles & Permissions Management
+    </h2>
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Email</th>
+                        <th>Current Role</th>
+                        <th>Assign New Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Email</td>
+
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    @user.CurrentRole
+                                </span>
+                            </td>
+
+                            <td>
+                                <form asp-action="AssignRole" method="post" class="d-flex gap-2">
+                                    <input type="hidden" name="userId" value="@user.UserId" />
+
+                                    <select name="selectedRole" class="form-select">
+                                        @foreach (var role in user.Roles)
+                                        {
+                                            <option value="@role.Value" selected="@(role.Value == user.CurrentRole)">
+                                                @role.Text
+                                            </option>
+                                        }
+                                    </select>
+
+                                    <button type="submit" class="btn btn-primary">
+                                        Save
+                                    </button>
+                                </form>
+                            </td>
+
+                            <td>
+                                Manage Permissions
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
