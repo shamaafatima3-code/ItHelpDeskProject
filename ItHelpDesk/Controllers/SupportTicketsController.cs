@@ -73,6 +73,15 @@ namespace ItHelpDesk.Controllers
 
             ViewBag.AIRecommendation = await _context.AIRecommendations
                 .FirstOrDefaultAsync(a => a.SupportTicketsId == id);
+            ViewBag.InternalNotes = await _context.InternalNotes
+    .Where(n => n.SupportTicketsId == id)
+    .OrderByDescending(n => n.CreatedDate)
+    .ToListAsync();
+
+            ViewBag.StatusTimeline = await _context.TicketStatusTimelines
+                .Where(s => s.SupportTicketsId == id)
+                .OrderByDescending(s => s.ChangedDate)
+                .ToListAsync();
 
             return View(supporttickets);
         }
@@ -242,6 +251,25 @@ namespace ItHelpDesk.Controllers
             {
                 try
                 {
+                    var oldTicket = await _context.SupportTickets
+    .AsNoTracking()
+    .FirstOrDefaultAsync(t => t.Id == supporttickets.Id);
+
+                    if (oldTicket != null && oldTicket.Status != supporttickets.Status)
+                    {
+                        var timeline = new TicketStatusTimeline
+                        {
+                            SupportTicketsId = supporttickets.Id,
+                            OldStatus = oldTicket.Status,
+                            NewStatus = supporttickets.Status,
+                            ChangedBy = User.Identity != null && User.Identity.IsAuthenticated
+                                ? User.Identity.Name
+                                : "Guest",
+                            ChangedDate = DateTime.Now
+                        };
+
+                        _context.TicketStatusTimelines.Add(timeline);
+                    }
                     _context.Update(supporttickets);
                     await _context.SaveChangesAsync();
                     var editLog = new ActivityLog
@@ -319,6 +347,30 @@ namespace ItHelpDesk.Controllers
         private bool SupportTicketsExists(int? id)
         {
             return _context.SupportTickets.Any(e => e.Id == id);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddInternalNote(int supportTicketsId, string noteText)
+        {
+            if (string.IsNullOrWhiteSpace(noteText))
+            {
+                return RedirectToAction("Details", new { id = supportTicketsId });
+            }
+
+            var note = new InternalNote
+            {
+                SupportTicketsId = supportTicketsId,
+                NoteText = noteText,
+                CreatedBy = User.Identity != null && User.Identity.IsAuthenticated
+                    ? User.Identity.Name
+                    : "Guest",
+                CreatedDate = DateTime.Now
+            };
+
+            _context.InternalNotes.Add(note);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = supportTicketsId });
         }
     }
 }

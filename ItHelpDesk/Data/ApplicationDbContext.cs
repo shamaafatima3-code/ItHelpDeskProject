@@ -32,5 +32,7 @@ namespace ItHelpDesk.Data
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         }
+        public DbSet<InternalNote> InternalNotes { get; set; }
+        public DbSet<TicketStatusTimeline> TicketStatusTimelines { get; set; }
     }
 }

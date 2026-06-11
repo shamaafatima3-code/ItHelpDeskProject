@@ -5,6 +5,8 @@
     var comments = ViewBag.Comments as List<ItHelpDesk.Models.TicketComment>;
     var attachments = ViewBag.Attachments as List<ItHelpDesk.Models.TicketAttachment>;
     var ai = ViewBag.AIRecommendation as ItHelpDesk.Models.AIRecommendation;
+    var internalNotes = ViewBag.InternalNotes as List<ItHelpDesk.Models.InternalNote>;
+    var statusTimeline = ViewBag.StatusTimeline as List<ItHelpDesk.Models.TicketStatusTimeline>;
 }
 
 <div class="container mt-5">
@@ -81,7 +83,77 @@
             }
         </div>
     </div>
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-warning rounded-top-4">
+            <h4 class="mb-0">Internal Notes</h4>
+        </div>
 
+        <div class="card-body p-4">
+            <form asp-action="AddInternalNote" method="post">
+                <input type="hidden" name="supportTicketsId" value="@Model.Id" />
+
+                <textarea name="noteText"
+                          class="form-control mb-3"
+                          rows="3"
+                          placeholder="Write an internal note..."
+                          required></textarea>
+
+                <button type="submit" class="btn btn-warning rounded-pill px-4">
+                    Add Internal Note
+                </button>
+            </form>
+
+            <hr />
+
+            @if (internalNotes != null && internalNotes.Any())
+            {
+                foreach (var note in internalNotes)
+                {
+                    <div class="card mb-3 border-0 shadow-sm rounded-4">
+                        <div class="card-body">
+                            <p>@note.NoteText</p>
+                            <small class="text-muted">
+                                By @note.CreatedBy on @note.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+                            </small>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No internal notes yet.</p>
+            }
+        </div>
+    </div>
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-success text-white rounded-top-4">
+            <h4 class="mb-0">Status Timeline</h4>
+        </div>
+
+        <div class="card-body p-4">
+            @if (statusTimeline != null && statusTimeline.Any())
+            {
+                foreach (var status in statusTimeline)
+                {
+                    <div class="border-start border-4 border-success ps-3 mb-3">
+                        <p class="mb-1">
+                            <strong>@status.OldStatus</strong>
+                            →
+                            <strong>@status.NewStatus</strong>
+                        </p>
+
+                        <small class="text-muted">
+                            Changed by @status.ChangedBy on @status.ChangedDate.ToString("yyyy-MM-dd HH:mm")
+                        </small>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No status changes yet.</p>
+            }
+        </div>
+    </div>
     <div class="card shadow-lg border-0 rounded-4 mt-5">
         <div class="card-header bg-dark text-white rounded-top-4">
             <h4 class="mb-0">Ticket Comments</h4>
