@@ -1,9 +1,11 @@
 ﻿using ItHelpDesk.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ItHelpDesk.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ActivityLogsController : Controller
     {
         private readonly ApplicationDbContext _context;

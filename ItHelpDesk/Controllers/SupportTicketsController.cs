@@ -6,9 +6,11 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ItHelpDesk.Controllers
 {
+    [Authorize(Roles = "Admin,IT Support Agent,Employee")]
     public class SupportTicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
