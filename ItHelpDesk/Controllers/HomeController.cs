@@ -21,9 +21,12 @@ namespace ItHelpDesk.Controllers
             ViewBag.ResolvedTickets = await _context.SupportTickets.CountAsync(t => t.Status == "Resolved");
             ViewBag.PendingTickets = await _context.SupportTickets.CountAsync(t => t.Status == "Pending");
 
+            ViewBag.CriticalTickets = await _context.SupportTickets.CountAsync(t => t.Priority == "Critical");
+            ViewBag.TotalAttachments = await _context.TicketAttachments.CountAsync();
+            ViewBag.UnreadNotifications = await _context.SystemNotifications.CountAsync(n => n.IsRead == false);
+
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();

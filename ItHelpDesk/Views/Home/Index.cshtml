@@ -10,7 +10,7 @@
         </h1>
 
         <p class="lead text-muted">
-             Support Ticket Management System
+            Support Ticket Management System
         </p>
     </div>
 
@@ -20,9 +20,7 @@
             <div class="card shadow border-0 rounded-4">
                 <div class="card-body text-center">
                     <h5>Total Tickets</h5>
-                    <h1 class="text-primary fw-bold">
-                        @ViewBag.TotalTickets
-                    </h1>
+                    <h1 class="text-primary fw-bold">@ViewBag.TotalTickets</h1>
                 </div>
             </div>
         </div>
@@ -31,9 +29,7 @@
             <div class="card shadow border-0 rounded-4">
                 <div class="card-body text-center">
                     <h5>Open Tickets</h5>
-                    <h1 class="text-danger fw-bold">
-                        @ViewBag.OpenTickets
-                    </h1>
+                    <h1 class="text-danger fw-bold">@ViewBag.OpenTickets</h1>
                 </div>
             </div>
         </div>
@@ -42,9 +38,7 @@
             <div class="card shadow border-0 rounded-4">
                 <div class="card-body text-center">
                     <h5>Resolved Tickets</h5>
-                    <h1 class="text-success fw-bold">
-                        @ViewBag.ResolvedTickets
-                    </h1>
+                    <h1 class="text-success fw-bold">@ViewBag.ResolvedTickets</h1>
                 </div>
             </div>
         </div>
@@ -53,9 +47,38 @@
             <div class="card shadow border-0 rounded-4">
                 <div class="card-body text-center">
                     <h5>Pending Tickets</h5>
-                    <h1 class="text-warning fw-bold">
-                        @ViewBag.PendingTickets
-                    </h1>
+                    <h1 class="text-warning fw-bold">@ViewBag.PendingTickets</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-3">
+
+        <div class="col-md-4">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Critical Tickets</h5>
+                    <h1 class="text-danger fw-bold">@ViewBag.CriticalTickets</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Total Attachments</h5>
+                    <h1 class="text-primary fw-bold">@ViewBag.TotalAttachments</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-body text-center">
+                    <h5>Unread Notifications</h5>
+                    <h1 class="text-warning fw-bold">@ViewBag.UnreadNotifications</h1>
                 </div>
             </div>
         </div>
@@ -70,4 +93,37 @@
         </a>
     </div>
 
+    <div class="card shadow-lg border-0 rounded-4 mt-5">
+        <div class="card-header bg-dark text-white rounded-top-4">
+            <h4 class="mb-0">Ticket Status Analytics</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <canvas id="dashboardChart"></canvas>
+        </div>
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const dashboardCtx = document.getElementById('dashboardChart');
+
+    new Chart(dashboardCtx, {
+    type: 'bar',
+    data: {
+    labels: ['Open', 'Pending', 'Resolved', 'Critical'],
+    datasets: [{
+    label: 'Ticket Analytics',
+    data: [
+    @ViewBag.OpenTickets,
+    @ViewBag.PendingTickets,
+    @ViewBag.ResolvedTickets,
+    @ViewBag.CriticalTickets
+    ],
+    borderWidth: 1
+    }]
+    }
+    });
+</script>
